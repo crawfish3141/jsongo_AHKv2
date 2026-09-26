@@ -296,14 +296,16 @@ class jsongo {
         static fn := A_ThisFunc
         
         ; Replacer validation
-        switch Type(replacer) {
-            case 'Func': if_rep := (replacer.MaxParams > 2) ? 1 : 0
-            case 'Array':
-                if_rep := 2, omit := Map(), omit.Default := 0
-                for i, v in replacer
-                    omit[v] := 1
-            default: if_rep := 0
+        if (replacer is Func)
+            if_rep := (replacer.MaxParams > 2) ? 1 : 0
+        else if (replacer is Array)
+        {
+            if_rep := 2, omit := Map(), omit.Default := 0
+            for i, v in replacer
+                omit[v] := 1
         }
+        else
+            if_rep := 0
         
         ; Spacer validation
         switch Type(spacer) {
